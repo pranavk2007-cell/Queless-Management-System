@@ -1,0 +1,231 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Queueless - Select Service</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #243047;
+        }
+
+        header {
+            background: #153e75;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            margin-bottom: 12px;
+            color: #153e75;
+        }
+
+        .card p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        button {
+            background: #153e75;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background: #245ba0;
+        }
+
+        #serviceOptions {
+            display: none;
+            background: white;
+            padding: 25px;
+            margin-top: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        #serviceOptions h3 {
+            margin-bottom: 15px;
+            color: #153e75;
+        }
+
+        .service-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .service-list button {
+            background: #e5eefb;
+            color: #153e75;
+            border: 1px solid #153e75;
+        }
+
+        .service-list button:hover {
+            background: #153e75;
+            color: white;
+        }
+
+        #message {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #245ba0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Queueless Management System</h1>
+        <p>Select your service and save your time!</p>
+        <a href="index.html">Back to Home</a>
+    </header>
+
+    <div class="container">
+
+        <h2>Choose Your Service</h2>
+
+        <div class="cards">
+
+            <div class="card">
+                <div class="icon">🏥</div>
+                <h3>Hospital Services</h3>
+                <p>Choose consultation, pharmacy, laboratory, or billing services.</p>
+                <button onclick="showServices('Hospital')">
+                    Select Hospital
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="icon">🎓</div>
+                <h3>College Services</h3>
+                <p>Choose admissions, fee payments, certificates, or examination services.</p>
+                <button onclick="showServices('College')">
+                    Select College
+                </button>
+            </div>
+
+        </div>
+
+        <div id="serviceOptions">
+            <h3 id="serviceTitle"></h3>
+            <div class="service-list" id="serviceList"></div>
+            <p id="message"></p>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>Queueless Management System | Smart Queue Management</p>
+    </footer>
+
+    <script>
+        function showServices(type) {
+            const options = document.getElementById("serviceOptions");
+            const title = document.getElementById("serviceTitle");
+            const list = document.getElementById("serviceList");
+            const message = document.getElementById("message");
+
+            let services = [];
+
+            if (type === "Hospital") {
+                services = [
+                    "Doctor Consultation",
+                    "Pharmacy",
+                    "Laboratory",
+                    "Billing"
+                ];
+            } else {
+                services = [
+                    "Admissions",
+                    "Fee Payment",
+                    "Certificates",
+                    "Examinations"
+                ];
+            }
+
+            title.textContent = type + " Services";
+            list.innerHTML = "";
+            message.textContent = "";
+
+            services.forEach(function(service) {
+                const button = document.createElement("button");
+
+                button.textContent = service;
+
+                button.onclick = function() {
+                    message.textContent =
+                        "You selected: " + service +
+                        ". Queue token generation will be available after backend integration.";
+                };
+
+                list.appendChild(button);
+            });
+
+            options.style.display = "block";
+            options.scrollIntoView({ behavior: "smooth" });
+        }
+    </script>
+
+</body>
+</html>
+```
