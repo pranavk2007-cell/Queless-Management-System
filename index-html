@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Queueless Management System</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #243047;
+        }
+
+        header {
+            background: #153e75;
+            color: white;
+            padding: 22px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        header h1 {
+            font-size: 25px;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            margin-left: 18px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 75px 20px;
+            background: linear-gradient(135deg, #e3efff, #ffffff);
+        }
+
+        .hero h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            color: #153e75;
+        }
+
+        .hero p {
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 650px;
+            margin: 0 auto 28px;
+        }
+
+        .button {
+            display: inline-block;
+            background: #1769d2;
+            color: white;
+            padding: 13px 25px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .button:hover {
+            background: #104d9d;
+        }
+
+        .services {
+            padding: 45px 8%;
+            text-align: center;
+        }
+
+        .services h2 {
+            margin-bottom: 12px;
+            font-size: 30px;
+        }
+
+        .services > p {
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+
+        .cards {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            width: 300px;
+            box-shadow: 0 4px 15px #00000010;
+        }
+
+        .card h3 {
+            margin: 15px 0;
+            color: #153e75;
+        }
+
+        .icon {
+            font-size: 42px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 22px;
+            background: #153e75;
+            color: white;
+            margin-top: 25px;
+        }
+
+        @media (max-width: 600px) {
+            .hero h2 {
+                font-size: 30px;
+            }
+
+            header {
+                justify-content: center;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Queueless</h1>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#services">Services</a>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <h2>Skip the Queue. Save Your Time.</h2>
+
+        <p>
+            A smarter way to manage waiting lines in hospitals and colleges.
+            Select your service, receive a digital token, and track your
+            queue without standing in long physical lines.
+        </p>
+
+        <a href="#services" class="button">Get Started</a>
+    </section>
+
+    <section class="services" id="services">
+        <h2>Choose Your Service</h2>
+
+        <p>Select where you need assistance.</p>
+
+        <div class="cards">
+
+            <div class="card">
+                <div class="icon">🏥</div>
+                <h3>Hospital Services</h3>
+
+                <p>
+                    Access consultation, pharmacy, laboratory,
+                    and billing services.
+                </p>
+
+                <button class="button"
+                    onclick="selectService('Hospital')">
+                    Select Hospital
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="icon">🎓</div>
+                <h3>College Services</h3>
+
+                <p>
+                    Access admissions, fee payments,
+                    certificates, and examination services.
+                </p>
+
+                <button class="button"
+                    onclick="selectService('College')">
+                    Select College
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>Queueless Management System | Smart Queue Management</p>
+    </footer>
+
+    <script>
+        function selectService(type) {
+            alert(
+                type + " selected! Registration and queue token features will be added next."
+            );
+        }
+    </script>
+
+</body>
+</html>
