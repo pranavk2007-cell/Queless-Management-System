@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Queue Status Tracking</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 550px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px #ccc;
+        }
+
+        h2 {
+            text-align: center;
+            color: #176b87;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background: #176b87;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #10536b;
+        }
+
+        .status {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            background: #e8f7ef;
+            border-radius: 10px;
+        }
+
+        .status h3 {
+            text-align: center;
+            color: #16834a;
+        }
+
+        .details {
+            line-height: 2;
+        }
+
+        .waiting {
+            color: #e69500;
+            font-weight: bold;
+        }
+
+        .completed {
+            color: green;
+            font-weight: bold;
+        }
+
+        .progress {
+            background: #ddd;
+            height: 12px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: #16834a;
+            width: 0%;
+            transition: width 0.5s;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Queue Status Tracking</h2>
+
+    <label>Enter Your Queue Token Number</label>
+    <input type="text" id="tokenInput"
+           placeholder="Example: A001">
+
+    <button onclick="checkStatus()">
+        Check Queue Status
+    </button>
+
+    <div class="status" id="statusBox">
+
+        <h3>Queue Status</h3>
+
+        <div class="details">
+            <p><b>Token Number:</b> <span id="token"></span></p>
+
+            <p><b>Patient Name:</b> <span id="name"></span></p>
+
+            <p><b>Department:</b> <span id="department"></span></p>
+
+            <p><b>Current Serving Token:</b>
+                <span id="current"></span>
+            </p>
+
+            <p><b>People Ahead:</b>
+                <span id="people"></span>
+            </p>
+
+            <p><b>Estimated Waiting Time:</b>
+                <span id="waitingTime"></span>
+            </p>
+
+            <p><b>Status:</b>
+                <span id="queueStatus"></span>
+            </p>
+        </div>
+
+        <p><b>Queue Progress</b></p>
+
+        <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    // Demo queue records
+    const queueData = [
+        {
+            token: "A001",
+            name: "Rahul",
+            department: "General Medicine",
+            position: 1
+        },
+        {
+            token: "A002",
+            name: "Arun",
+            department: "Cardiology",
+            position: 2
+        },
+        {
+            token: "A003",
+            name: "Priya",
+            department: "Orthopaedics",
+            position: 3
+        },
+        {
+            token: "A004",
+            name: "Kumar",
+            department: "Neurology",
+            position: 4
+        },
+        {
+            token: "A005",
+            name: "Anitha",
+            department: "Paediatrics",
+            position: 5
+        }
+    ];
+
+    // Current serving position
+    let currentPosition = 2;
+
+    function checkStatus() {
+
+        let enteredToken =
+            document.getElementById("tokenInput")
+            .value.trim().toUpperCase();
+
+        let patient = queueData.find(
+            p => p.token === enteredToken
+        );
+
+        if (!patient) {
+            alert("Invalid token number! Please try again.");
+            document.getElementById("statusBox").style.display = "none";
+            return;
+        }
+
+        let peopleAhead =
+            Math.max(0, patient.position - currentPosition);
+
+        let waitingTime = peopleAhead * 10;
+
+        let status = "";
+
+        if (patient.position < currentPosition) {
+            status = "Completed";
+        }
+        else if (patient.position === currentPosition) {
+            status = "Now Serving";
+        }
+        else {
+            status = "Waiting";
+        }
+
+        document.getElementById("token").innerText =
+            patient.token;
+
+        document.getElementById("name").innerText =
+            patient.name;
+
+        document.getElementById("department").innerText =
+            patient.department;
+
+        document.getElementById("current").innerText =
+            "A" + String(currentPosition).padStart(3, "0");
+
+        document.getElementById("people").innerText =
+            peopleAhead;
+
+        document.getElementById("waitingTime").innerText =
+            waitingTime + " minutes";
+
+        let statusElement =
+            document.getElementById("queueStatus");
+
+        statusElement.innerText = status;
+
+        statusElement.className =
+            status === "Completed" ? "completed" : "waiting";
+
+        let progress = Math.min(
+            100,
+            Math.max(0,
+                ((patient.position - peopleAhead) /
+                patient.position) * 100
+            )
+        );
+
+        document.getElementById("progressBar").style.width =
+            progress + "%";
+
+        document.getElementById("statusBox").style.display =
+            "block";
+    }
+
+</script>
+
+</body>
+</html>
