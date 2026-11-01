@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Application Testing</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f0f4f8;
+    padding: 25px;
+    color: #333;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+}
+
+header {
+    background: #123b55;
+    color: white;
+    padding: 30px;
+    text-align: center;
+    border-radius: 12px;
+    margin-bottom: 25px;
+}
+
+.section {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    color: #123b55;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 12px 20px;
+    background: #176b87;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+button:hover {
+    background: #10536b;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background: #e8f1f5;
+}
+
+.pass {
+    color: green;
+    font-weight: bold;
+}
+
+.fail {
+    color: red;
+    font-weight: bold;
+}
+
+.pending {
+    color: #c58a00;
+    font-weight: bold;
+}
+
+.progress {
+    height: 15px;
+    background: #ddd;
+    border-radius: 10px;
+    margin: 20px 0;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #16834a;
+    transition: .3s;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.stat {
+    background: #e8f4f8;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+}
+
+.stat h3 {
+    font-size: 30px;
+    color: #176b87;
+}
+
+#report {
+    line-height: 2;
+    margin-top: 20px;
+}
+
+@media(max-width: 600px) {
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    table {
+        font-size: 12px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+    <h1>Queueless Management System</h1>
+    <h2 style="color:white">Application Testing</h2>
+    <p>Automatic Module Availability Test</p>
+</header>
+
+<div class="section">
+
+<h2>1. Application Test Summary</h2>
+
+<div class="stats">
+
+    <div class="stat">
+        <h3 id="total">6</h3>
+        <p>Total Modules</p>
+    </div>
+
+    <div class="stat">
+        <h3 id="passed">0</h3>
+        <p>Passed</p>
+    </div>
+
+    <div class="stat">
+        <h3 id="failed">0</h3>
+        <p>Failed</p>
+    </div>
+
+</div>
+
+<div class="progress">
+    <div class="progress-bar" id="bar"></div>
+</div>
+
+<p id="progressText">Testing Progress: 0%</p>
+
+<button onclick="runTests()">Run Application Test</button>
+<button onclick="window.location.reload()">Reset Test</button>
+
+</div>
+
+<div class="section">
+
+<h2>2. Module Testing Results</h2>
+
+<table>
+<thead>
+<tr>
+    <th>Module</th>
+    <th>HTML File</th>
+    <th>Test Result</th>
+</tr>
+</thead>
+
+<tbody id="results">
+
+<tr>
+    <td>Home Page</td>
+    <td>index.html</td>
+    <td class="pending">Not Tested</td>
+</tr>
+
+<tr>
+    <td>Login Page</td>
+    <td>login.html</td>
+    <td class="pending">Not Tested</td>
+</tr>
+
+<tr>
+    <td>Service Selection</td>
+    <td>service-selection.html</td>
+    <td class="pending">Not Tested</td>
+</tr>
+
+<tr>
+    <td>Token Generation</td>
+    <td>queue-token-generation.html</td>
+    <td class="pending">Not Tested</td>
+</tr>
+
+<tr>
+    <td>Queue Status Tracking</td>
+    <td>queue-status-tracking.html</td>
+    <td class="pending">Not Tested</td>
+</tr>
+
+<tr>
+    <td>Admin Dashboard</td>
+    <td>admin-dashboard.html</td>
+    <td class="pending">Not Tested</td>
+</tr>
+
+</tbody>
+</table>
+
+</div>
+
+<div class="section">
+
+<h2>3. Application Test Report</h2>
+
+<div id="report">
+    Click Run Application Test to generate the report.
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const modules = [
+    {
+        name: "Home Page",
+        file: "index.html"
+    },
+    {
+        name: "Login Page",
+        file: "login.html"
+    },
+    {
+        name: "Service Selection",
+        file: "service-selection.html"
+    },
+    {
+        name: "Token Generation",
+        file: "queue-token-generation.html"
+    },
+    {
+        name: "Queue Status Tracking",
+        file: "queue-status-tracking.html"
+    },
+    {
+        name: "Admin Dashboard",
+        file: "admin-dashboard.html"
+    }
+];
+
+async function runTests() {
+
+    const table = document.getElementById("results");
+
+    table.innerHTML = "";
+
+    let passed = 0;
+    let failed = 0;
+
+    for (const module of modules) {
+
+        let status = "Failed";
+        let className = "fail";
+
+        try {
+
+            const response = await fetch(
+                module.file,
+                { method: "HEAD", cache: "no-store" }
+            );
+
+            if (response.ok) {
+                status = "Passed";
+                className = "pass";
+                passed++;
+            } else {
+                failed++;
+            }
+
+        } catch (error) {
+
+            failed++;
+
+        }
+
+        const row = document.createElement("tr");
+
+        [module.name, module.file, status].forEach((value, index) => {
+
+            const cell = document.createElement("td");
+
+            cell.textContent = value;
+
+            if (index === 2) {
+                cell.className = className;
+            }
+
+            row.appendChild(cell);
+
+        });
+
+        table.appendChild(row);
+
+        const tested = passed + failed;
+
+        document.getElementById("bar").style.width =
+            (tested / modules.length * 100) + "%";
+
+        document.getElementById("progressText").innerText =
+            "Testing Progress: " +
+            Math.round(tested / modules.length * 100) + "%";
+
+        document.getElementById("passed").innerText = passed;
+        document.getElementById("failed").innerText = failed;
+
+    }
+
+    document.getElementById("total").innerText = modules.length;
+
+    document.getElementById("report").innerHTML = `
+        <h3>Application Testing Completed</h3>
+        <p>Total Modules Tested: ${modules.length}</p>
+        <p class="pass">Successful Modules: ${passed}</p>
+        <p class="fail">Failed Modules: ${failed}</p>
+        <p><b>Overall Result:</b>
+        ${failed === 0
+            ? "All module availability checks passed."
+            : "Some modules could not be accessed. Check the file names and server."}
+        </p>
+        <button onclick="window.print()">Print Test Report</button>
+    `;
+
+}
+
+</script>
+
+</body>
+</html>
