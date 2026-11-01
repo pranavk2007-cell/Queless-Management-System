@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Queue Token Generation</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px #ccc;
+        }
+
+        h2 {
+            text-align: center;
+            color: #176b87;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background: #176b87;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #10536b;
+        }
+
+        .token {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            text-align: center;
+            background: #e6f7ef;
+            border-radius: 10px;
+        }
+
+        .token h1 {
+            color: #16834a;
+            font-size: 40px;
+        }
+
+        .queue {
+            margin-top: 25px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .token, .token * {
+                visibility: visible;
+            }
+            .token {
+                display: block;
+                position: absolute;
+                top: 20px;
+                left: 10%;
+                width: 75%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Hospital Queue Token</h2>
+
+    <label>Patient Name</label>
+    <input type="text" id="patientName"
+           placeholder="Enter patient name">
+
+    <label>Patient ID</label>
+    <input type="text" id="patientId"
+           placeholder="Enter patient ID">
+
+    <label>Select Department</label>
+    <select id="department">
+        <option value="">Select Department</option>
+        <option>General Medicine</option>
+        <option>Cardiology</option>
+        <option>Orthopaedics</option>
+        <option>Neurology</option>
+        <option>Paediatrics</option>
+        <option>Dermatology</option>
+    </select>
+
+    <button onclick="generateToken()">
+        Generate Queue Token
+    </button>
+
+    <div class="token" id="tokenDisplay">
+        <h3>Token Generated Successfully!</h3>
+        <h1 id="tokenNumber"></h1>
+        <p id="displayName"></p>
+        <p id="displayId"></p>
+        <p id="displayDepartment"></p>
+        <p id="displayTime"></p>
+        <button onclick="window.print()">Print Token</button>
+    </div>
+
+    <div class="queue">
+        <h3>Queue Information</h3>
+        <p>Total Tokens Generated: <span id="totalTokens">0</span></p>
+        <p>Current Token: <span id="currentToken">None</span></p>
+    </div>
+
+</div>
+
+<script>
+    let tokenCount = Number(
+        localStorage.getItem("tokenCount") || 0
+    );
+
+    document.getElementById("totalTokens").innerText =
+        tokenCount;
+
+    function generateToken() {
+
+        let name = document.getElementById("patientName").value.trim();
+        let id = document.getElementById("patientId").value.trim();
+        let department = document.getElementById("department").value;
+
+        if (name === "" || id === "" || department === "") {
+            alert("Please fill all the details!");
+            return;
+        }
+
+        tokenCount++;
+
+        localStorage.setItem("tokenCount", tokenCount);
+
+        let token = "A" + String(tokenCount).padStart(3, "0");
+
+        document.getElementById("tokenNumber").innerText = token;
+        document.getElementById("displayName").innerText =
+            "Patient Name: " + name;
+        document.getElementById("displayId").innerText =
+            "Patient ID: " + id;
+        document.getElementById("displayDepartment").innerText =
+            "Department: " + department;
+        document.getElementById("displayTime").innerText =
+            "Date & Time: " + new Date().toLocaleString();
+
+        document.getElementById("tokenDisplay").style.display = "block";
+
+        document.getElementById("totalTokens").innerText = tokenCount;
+        document.getElementById("currentToken").innerText = token;
+
+    }
+</script>
+
+</body>
+</html>
